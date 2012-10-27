@@ -103,7 +103,7 @@ public class RankMeUp extends JavaPlugin {
         			sender.sendMessage(ChatColor.RED + "You're at the highest rank already!");
         			return true;
         		}
-        		double price = getConfig().getDouble("rankprices."+s);
+        		double price = getConfig().getDouble("rankprices."+s, 1000.0);
         		if(econ.getBalance(sender.getName()) >= price) {
         			econ.withdrawPlayer(sender.getName(), price);
         			// Now, do one of the following:
