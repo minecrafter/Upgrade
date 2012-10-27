@@ -49,7 +49,7 @@ public class UpgradePlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         if (!setupEconomy() ) {
-            log.info(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+            log.info("Vault not found!");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }

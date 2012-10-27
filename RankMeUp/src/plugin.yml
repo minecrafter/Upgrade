@@ -1,15 +1,16 @@
-name: RankMeUp
+name: Upgrade
 main: com.tropicalwikis.tuxcraft.plugins.upgrade.UpgradePlugin
 version: 0.1
 author: tuxed
 permissions:
-    rankmeup.*:
+    upgrade.*:
         description: Alias for rankup and reload permissions
         children:
-            rankmeup.rankup: true
-    rankmeup.rankup:
+            upgrade.rankup: true
+            upgrade.reload: true
+    upgrade.rankup:
         description: Let users rank up
-    rankmeup.reload:
+    upgrade.reload:
         description: Reload the plugin
         default: op
 commands:
