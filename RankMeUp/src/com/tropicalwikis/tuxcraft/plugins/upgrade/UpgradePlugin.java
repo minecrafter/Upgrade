@@ -1,4 +1,4 @@
-package net.beastnode.closeminded.plugins.rankmeup;
+package com.tropicalwikis.tuxcraft.plugins.upgrade;
 
 /*
  * Copyright (c) 2012, tuxed
@@ -40,7 +40,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class RankMeUp extends JavaPlugin {
+public class UpgradePlugin extends JavaPlugin {
 
     private static final Logger log = Logger.getLogger("Minecraft");
     public static Economy econ = null;

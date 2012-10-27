@@ -1,5 +1,5 @@
 name: RankMeUp
-main: net.beastnode.closeminded.plugins.rankmeup.RankMeUp
+main: com.tropicalwikis.tuxcraft.plugins.upgrade.UpgradePlugin
 version: 0.1
 author: tuxed
 permissions:
