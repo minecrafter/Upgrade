@@ -1,0 +1,35 @@
+ranks:
+  - Default
+  - Inmate
+  - InmateHelper
+  - DrugAddict
+  - InmateLeader
+  - GangMember
+  - GangLeader
+  - GangVicePresident
+  - GangPresident
+  - PrisonPensioner
+  - PrisonCounselor
+  - PrisonHelper
+  - PrisonAssistant
+  - PrisonLeader
+  - PrisonManager
+  - Freeman
+rankprices:
+  Default: 0
+  Inmate: 100
+  InmateHelper: 1000
+  DrugAddict: 5000
+  InmateLeader: 15000
+  GangMember: 30000
+  GangLeader: 50000
+  GangVicePresident: 100000
+  GangPresident: 300000
+  PrisonPensioner: 750000
+  PrisonCounselor: 1000000
+  PrisonHelper: 2000000
+  PrisonAssistant: 4000000
+  PrisonLeader: 5000000
+  PrisonManager: 8000000
+  Freeman: 10000000
+promotion-command: "vault"

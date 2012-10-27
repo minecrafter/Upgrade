@@ -1,0 +1,14 @@
+name: RankMeUp
+main: net.beastnode.closeminded.plugins.rankmeup.RankMeUp
+version: 0.1
+author: tuxed
+permissions:
+    rankmeup.*:
+        description: Alias for rankmeup.rankup
+        children:
+            rankmeup.rankup: true
+    rankmeup.rankup:
+        description: Let users rank up
+commands:
+    rankup:
+        description: Rank yourself up
