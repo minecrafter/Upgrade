@@ -84,7 +84,13 @@ public class RankMeUp extends JavaPlugin {
         }
 
         Player player = (Player) sender;
-
+        try {
+        	if(sender.hasPermission("rankmeup.reload") && args[0] == "reload") {
+        		reloadConfig();
+        		sender.sendMessage(ChatColor.GREEN + "Plugin reloaded!");
+        		return true;
+        	}
+        } catch (Exception e){};
         // tiem to rank upppppppp
         String c = perms.getPrimaryGroup(player);
         List<String> groups = getConfig().getStringList("ranks");

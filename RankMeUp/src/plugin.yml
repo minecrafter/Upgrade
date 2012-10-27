@@ -4,11 +4,14 @@ version: 0.1
 author: tuxed
 permissions:
     rankmeup.*:
-        description: Alias for rankmeup.rankup
+        description: Alias for rankup and reload permissions
         children:
             rankmeup.rankup: true
     rankmeup.rankup:
         description: Let users rank up
+    rankmeup.reload:
+        description: Reload the plugin
+        default: op
 commands:
     rankup:
         description: Rank yourself up
