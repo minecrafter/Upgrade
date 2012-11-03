@@ -27,6 +27,7 @@ package com.tropicalwikis.tuxcraft.plugins.upgrade;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -43,9 +44,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class UpgradePlugin extends JavaPlugin {
 
     private static final Logger log = Logger.getLogger("Minecraft");
-    public static Economy econ = null;
-    public static Permission perms = null;
-    
+    private static Economy econ = null;
+    private static Permission perms = null;
+
     @Override
     public void onEnable() {
         if (!setupEconomy() ) {
@@ -55,11 +56,33 @@ public class UpgradePlugin extends JavaPlugin {
         }
         setupPermissions();
         this.getDataFolder().mkdirs();
+        // Determine if we are using the old file structure
+        /*
+        if(getConfig().contains("ranks")) {
+        	log.info("You are using the old config.yml format which only supported one ladder. 0.2 introduced ladder support.");
+        	log.info("Converting your config.yml to the new format...");
+        	convertFromBukkitYaml();
+        }*/
+        if(!getConfig().contains("ranks")) {
+        	log.severe("Adding default configuration. This may not be acceptable.");
+        	log.severe("Visit http://tuxcraft.tropicalwikis.com/wiki/Upgrade/Configuration for configuration details.");
+        	ArrayList<String> defaultRanks = new ArrayList<String>();
+        	defaultRanks.add("Default");
+        	defaultRanks.add("User");
+        	defaultRanks.add("Member");
+        	defaultRanks.add("Builder");
+        	getConfig().set("ranks", defaultRanks);
+        	getConfig().set("rankprices.Default", 0.0);
+        	getConfig().set("rankprices.User", 10000.0);
+        	getConfig().set("rankprices.Member", 25000.0);
+        	getConfig().set("rankprices.Builder", 50000.0);
+        	saveConfig();
+        }
         getConfig().options().copyDefaults(true);
         saveConfig();
     }
 
-    private boolean setupEconomy() {
+	private boolean setupEconomy() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
@@ -78,51 +101,53 @@ public class UpgradePlugin extends JavaPlugin {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-        if(!(sender instanceof Player)) {
-            sender.sendMessage("This is a in-game command.");
-            return true;
-        }
-
-        Player player = (Player) sender;
         try {
-        	if(sender.hasPermission("rankmeup.reload") && args[0] == "reload") {
+        	if(sender.hasPermission("upgrade.reload") && args[0] == "reload") {
         		reloadConfig();
         		sender.sendMessage(ChatColor.GREEN + "Plugin reloaded!");
         		return true;
         	}
         } catch (Exception e){};
+    	
+    	if(!(sender instanceof Player)) {
+            sender.sendMessage("This is a in-game command.");
+            return true;
+        }
+
+    	Player player = (Player)sender;
         // tiem to rank upppppppp
         String c = perms.getPrimaryGroup(player);
         List<String> groups = getConfig().getStringList("ranks");
-        if(groups.contains(c) && sender.hasPermission("rankmeup.rankup")) {
-        	if(groups.contains(c)) {
-        		String s = "";
-        		try {
-        			s = groups.get(groups.indexOf(c) + 1);
-        		} catch (IndexOutOfBoundsException e) {
-        			sender.sendMessage(ChatColor.RED + "You're at the highest rank already!");
-        			return true;
-        		}
-        		double price = getConfig().getDouble("rankprices."+s, 1000.0);
-        		if(econ.getBalance(sender.getName()) >= price) {
-        			econ.withdrawPlayer(sender.getName(), price);
-        			// Now, do one of the following:
-        			// 1. If the command is "vault", attempt to change permissions using Vault
-        			// 2. Otherwise invoke the command; %username% and %group% will automatically be filled in.
-        			String cmd = getConfig().getString("promotion-command");
-        			if(cmd.equals("vault")) {
-        				perms.playerAddGroup(player, s);
-        				// better be safer than sorry
-        				perms.playerRemoveGroup(player, c);
-        			} else {
-        				getServer().dispatchCommand(getServer().getConsoleSender(), cmd.replaceAll("%username%", player.getName()).replaceAll("%group%", s));
-        			}
-        		} else {
-        			sender.sendMessage(ChatColor.RED + "You do not have enough money. The next rank, "+s+", costs "+econ.format(price)+".");
-        		}
-        	}
+        if(groups.contains(c) && sender.hasPermission("upgrade.rankup")) {
+    		String s = "";
+    		try {
+    			s = groups.get(groups.indexOf(c) + 1);
+    		} catch (IndexOutOfBoundsException e) {
+    			sender.sendMessage(ChatColor.RED + "You're at the highest rank already!");
+    			return true;
+    		}
+    		double price = getConfig().getDouble("rankprices."+s, 1000.0);
+    		if(econ.getBalance(sender.getName()) >= price) {
+    			econ.withdrawPlayer(sender.getName(), price);
+    			// Now, do one of the following:
+    			// 1. If the command is "vault", attempt to change permissions using Vault
+    			// 2. Otherwise invoke the command; %username% and %group% will automatically be filled in.
+    			String cmd = getConfig().getString("promotion-command", "vault");
+    			if(cmd.equals("vault")) {
+    				perms.playerAddGroup(player, s);
+    				// better be safer than sorry
+    				perms.playerRemoveGroup(player, c);
+    			} else {
+    				getServer().dispatchCommand(getServer().getConsoleSender(), cmd.replaceAll("%username%", player.getName()).replaceAll("%group%", s));
+    			}
+    			if(getConfig().getBoolean("broadcast-promotions", true)) {
+    				getServer().broadcastMessage(ChatColor.GREEN + sender.getName() + " has been promoted to "+s+"!");
+    			}
+    		} else {
+    			sender.sendMessage(ChatColor.RED + "You do not have enough money. The next rank, "+s+", costs "+econ.format(price)+".");
+    		}
         } else {
-        	sender.sendMessage(ChatColor.RED + "You are not able to rank up.");
+        	sender.sendMessage(ChatColor.RED + "You do not have permission to rank up.");
         }
         return true;
     }

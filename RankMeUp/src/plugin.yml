@@ -1,6 +1,6 @@
 name: Upgrade
 main: com.tropicalwikis.tuxcraft.plugins.upgrade.UpgradePlugin
-version: 0.1
+version: 0.1.1
 author: tuxed
 permissions:
     upgrade.*:
