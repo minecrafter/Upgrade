@@ -1,7 +1,10 @@
 name: Upgrade
 main: com.tropicalwikis.tuxcraft.plugins.upgrade.UpgradePlugin
 version: 0.1.1
-author: tuxed
+author: [tuxed,XeonPowder(Lars1011)]
+commands:
+    rankup:
+        description: Rank yourself up
 permissions:
     upgrade.*:
         description: Alias for rankup and reload permissions
@@ -13,6 +16,3 @@ permissions:
     upgrade.reload:
         description: Reload the plugin
         default: op
-commands:
-    rankup:
-        description: Rank yourself up
