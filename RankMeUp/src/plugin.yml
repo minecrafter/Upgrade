@@ -1,7 +1,7 @@
 name: Upgrade
 main: com.tropicalwikis.tuxcraft.plugins.upgrade.UpgradePlugin
 version: 0.1.1
-author: tuxed
+author: [tuxed,XeonPowder(Lars1011)]
 commands:
     rankup:
         description: Rank yourself up
