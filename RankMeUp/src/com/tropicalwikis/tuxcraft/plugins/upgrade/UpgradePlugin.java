@@ -67,7 +67,7 @@ public class UpgradePlugin extends JavaPlugin {
     }
     Loaded(this.yml);
     read();
-    log.info("[SPClear] by: XeonPowder is now enabled");
+    log.info("[Upgrade] by: Tuxed is now enabled");
     setupPermissions();
     }
     
@@ -125,7 +125,7 @@ public class UpgradePlugin extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
         try{
-            if(sender.hasPermission("upgrade.relaod") && command.getName().equalsIgnoreCase("rankup") && args.length == 1){
+            if(sender.hasPermission("upgrade.reload") && command.getName().equalsIgnoreCase("rankup") && args.length == 1){
                 reloadConfig();
                 sender.sendMessage(ChatColor.GREEN + "Plugin reloaded!");
                 return true;
@@ -164,7 +164,7 @@ public class UpgradePlugin extends JavaPlugin {
                         getServer().dispatchCommand(getServer().getConsoleSender(), cmd.replaceAll("%username%", player.getName()).replaceAll("%group%", s));
                     }
                     if(broadcast) {
-                        getServer().broadcastMessage(ChatColor.GOLD + "" +ChatColor.BOLD + sender.getName() + ChatColor.GREEN + " has been promoted to " + ChatColor.AQUA + "" + ChatColor.BOLD + s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase() + "!");
+                        getServer().broadcastMessage(ChatColor.GOLD + "" +ChatColor.BOLD + sender.getName() + ChatColor.RESET + "" + ChatColor.GREEN + " has been promoted to " + ChatColor.AQUA + "" + ChatColor.BOLD + s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase() + "!");
                     }else{
                         player.sendMessage(ChatColor.GREEN + "You have been promoted to " + ChatColor.AQUA + "" + ChatColor.BOLD + s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase() + "!");
                         player.sendMessage(ChatColor.GREEN + "Your account balance is now " + ChatColor.RED +econ.getBalance(sender.getName()) + "!");
